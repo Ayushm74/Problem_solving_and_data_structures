@@ -1,0 +1,49 @@
+class Solution {
+public:
+    
+    bool isSpecial(string s) {
+        int count = 0;
+        for (char c : s) {
+            if (c == '1') count++;
+            else count--;
+
+            if (count < 0) return false;
+        }
+        return count == 0;
+    }
+
+    string makeLargestSpecial(string s) {
+        int n = s.size();
+        bool improved = true;
+
+        while (improved) {
+            improved = false;
+
+            for (int i = 0; i < n; i++) {
+                for (int j = i; j < n; j++) {
+                    
+                    string sub1 = s.substr(i, j - i + 1);
+                    if (!isSpecial(sub1)) continue;
+
+                    for (int k = j + 1; k < n; k++) {
+                        string sub2 = s.substr(j + 1, k - j);
+                        if (!isSpecial(sub2)) continue;
+
+                        string newStr = 
+                            s.substr(0, i) +
+                            sub2 +
+                            sub1 +
+                            s.substr(k + 1);
+
+                        if (newStr > s) {
+                            s = newStr;
+                            improved = true;
+                        }
+                    }
+                }
+            }
+        }
+
+        return s;
+    }
+};
