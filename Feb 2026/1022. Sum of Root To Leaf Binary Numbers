@@ -1,0 +1,39 @@
+class Solution {
+public: 
+    vector<string> vals;
+
+    int btd(string s){
+    int sum = 0;
+    for(int i = 0; i < s.size(); i++){
+        sum = sum * 2 + (s[i] - '0');
+    }
+    return sum;
+}
+
+    void finds(TreeNode* root, string ans){
+        if(root == nullptr) return;
+
+        ans += char(root->val + '0');
+
+        if(root->left == nullptr && root->right == nullptr){
+            vals.push_back(ans);
+            return;
+        }
+
+        if(root->left){
+            finds(root->left, ans);
+        }
+        if(root->right){
+            finds(root->right, ans);
+        }
+    }
+
+    int sumRootToLeaf(TreeNode* root) {
+        finds(root,"");
+        int sum = 0;
+        for(int i = 0;i<vals.size();i++){
+            sum += btd(vals[i]);
+        }
+        return sum;
+    }
+};
