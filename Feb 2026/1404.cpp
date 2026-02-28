@@ -1,19 +1,22 @@
+#include <string>
+using namespace std;
+
 class Solution {
 public:
     int numSteps(string s) {
         int n = s.size();
-        int step = 0;
-        int carry =0;
-        for(int i = n-1;i>0;i--){
-            int digit = s[i]-0+carry;
-            if(digit % 2 == 0){
-                step++;
-            }
-            else{
-                step += 2;
+        int steps = 0;
+        int carry = 0;
+        for (int i = n - 1; i > 0; --i) {
+            int digit = (s[i] - '0') + carry;
+            if (digit == 1) {
+                steps += 2;
                 carry = 1;
+            } else {
+                steps += 1;
+                carry = (digit == 2) ? 1 : 0;
             }
         }
-        return step+carry;
+        return steps + carry;
     }
 };
