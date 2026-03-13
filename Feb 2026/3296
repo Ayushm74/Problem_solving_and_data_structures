@@ -1,1 +1,55 @@
 
+class Solution {
+public:
+   
+    long long minNumberOfSeconds(int mh, vector<int>& wt) {
+
+        int n = wt.size();
+
+        priority_queue<
+            tuple<long long,long long,long long>,
+            vector<tuple<long long,long long,long long>>,
+            greater<tuple<long long,long long,long long>>
+        > pq;
+
+        sort(wt.begin(), wt.end());
+
+        for(int i = 0; i < n; i++){
+            pq.push({0 , wt[i] , wt[i]});
+        }
+
+        int count = n;
+
+        while(count < mh){
+
+            auto [step , val , init] = pq.top();
+            pq.pop();
+
+            long long t = step + 1;
+            long long x = t * init;
+
+            pq.push({t , x , init});
+
+            count = count+t;
+        }
+
+        long long maxi = 0;
+
+        // iterate over PQ
+        while(!pq.empty()){
+
+            auto [step , val , init] = pq.top();
+            pq.pop();
+
+            long long sum = 0;
+
+            for(int i = 1; i <= step+1; i++){
+                sum += i * init;
+            }
+
+            maxi = max(maxi , sum);
+        }
+
+        return maxi;
+    }
+};
